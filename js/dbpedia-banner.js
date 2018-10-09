@@ -100,7 +100,7 @@ $( document ).ready(function() {
                 if(BANNER_CONFIG["context"][hostName] != null) {
 
                     var bannerItem = BANNER_CONFIG["context"][hostName];
-                    bannerItem.href = bannerItem.href.replace("{0}", encodeURI(urlString));
+                    bannerItem.href = bannerItem.href.replace("{1}", encodeURI(urlString));
                     bannerItem.caption = bannerItem.caption.replace("{0}", labelEn);
 
                     bannerItems.push(bannerItem);
@@ -112,7 +112,7 @@ $( document ).ready(function() {
         for(p in BANNER_CONFIG["priority"]) {
             
             var bannerItem = BANNER_CONFIG["priority"][p];
-            bannerItem.href = bannerItem.href.replace("{0}", encodeURI(resourceURI));
+            bannerItem.href = bannerItem.href.replace("{1}", encodeURI(resourceURI));
             bannerItem.caption = bannerItem.caption.replace("{0}", labelEn);
 
             bannerItems.push(bannerItem);
