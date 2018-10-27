@@ -30,46 +30,67 @@ Add to DOM
 
 ## Config
 
-This is an example configuration. Each banner item needs an icon, a caption, a link and a rank. The placeholder **{0}** will be replaced with the resource label. The placeholder **{1}** will be replaced with the resource URI. All banner items will be sorted by rank.
+This is an example configuration. 
+Hosts are defined with an icon, a caption, a link, a rank and a prefix. The placeholder **{0}** will be replaced with the resource label. The placeholder **{1}** will be replaced with the resource URI. All banner items will be sorted by rank.
+The prefix is used to determine whether the host fits the context of the current page.
 
-There are two types of banner items:
+Banner items can be set up under "priority" and "context" to create the two types of banner items:
 
 - **Priority Items** - Priority items can be displayed on all pages and do not need a specific context.
-- **Contextual Items** - Only hosts offering data about this resource (linked with owl:sameAs) will be displayed.
+- **Contextual Items** - Only hosts offering data about this resource will be displayed. The context config contains a map of relation URI to list of banner items. In this particular case, "wikidata", "dnb" and "linkedgeodata" are shown in the banner, if there is a "http://www.w3.org/2002/07/owl#sameAs" relation from the current resource to a resource URI that starts with the respective host prefix.
+
+The host rank can be overwritten by setting the rank field in the banner item.
 
 
 
 ```json
 {
-    "priority" : {
-        "newsapi.aylien.com" :  {
-            "icon" : "https://news-api-demo.s3.amazonaws.com/images/logo-header.png",
-            "caption" : "Find latest news on {0}",
-            "href" : "https://newsapi.aylien.com/demo#!/?published_at.start=NOW-30DAYS%2FDAY&amp;published_at.end=NOW&amp;entities.body.links.dbpedia%5B%5D={1}&amp;sort_by=recency",
-            "rank" : 100
-        }
-    },
+    "priority" : [
+      { "key" : "aylien", "rank" : 200 },
+
+    ],
 
     "context" : {
-        "www.wikidata.org": {
-            "icon" : "https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/Wikidata-logo-en.svg/320px-Wikidata-logo-en.svg.png",
-            "caption" : "Edit {0} on Wikidata",
-            "href" : "{1}",
-            "rank" : 200
-        },
-        "d-nb.info" :  {
-            "icon" : "http://www.dnb.de/SiteGlobals/StyleBundles/Bilder/DNB/logo-1.gif?__blob=normal&v=1",
-            "caption" : "Search the DNB for {0}",
-            "href" : "{1}",
-            "rank" : 99
-        },
-        "linkedgeodata.org" : {
-            "icon" : "http://linkedgeodata.org/files/lgdlogo.png",
-            "caption" : "Find {0} on LinkedGeoData",
-            "href" : "{1}",
-            "rank" : 10
-        }
-    }
+        "http://www.w3.org/2002/07/owl#sameAs" :
+        [
+            { "key" : "wikidata", "rank" : 160 },
+            { "key" : "dnb", "rank" : 100 },
+            { "key" : "linkedgeodata" },
+        ],
+    },
+
+    "hosts" :
+    {
+      "aylien" :  {
+          "prefix" : "https://newsapi.aylien.com",
+          "icon" : "https://news-api-demo.s3.amazonaws.com/images/logo-header.png",
+          "caption" : "Find latest news about {0}",
+          "href" : "https://newsapi.aylien.com/demo#!/?published_at.start=NOW-30DAYS%2FDAY&amp;published_at.end=NOW&amp;entities.body.links.dbpedia%5B%5D={1}&amp;sort_by=recency&amp;ref=dbpedia",
+          "rank" : 200
+      },
+      "wikidata": {
+          "prefix" : "http://www.wikidata.org/",
+          "icon" : "https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/Wikidata-logo-en.svg/320px-Wikidata-logo-en.svg.png",
+          "caption" : "Edit {0} on Wikidata",
+          "href" : "{1}?ref=dbpedia",
+          "rank" : 150
+      },
+      "dnb" :  {
+          "prefix" : "http://d-nb.info/",
+          "icon" : "http://www.dnb.de/SiteGlobals/StyleBundles/Bilder/DNB/logo-1.gif?__blob=normal&v=1",
+          "caption" : "Search the DNB for {0}",
+          "href" : "{1}?ref=dbpedia",
+          "rank" : 99
+      },
+      "linkedgeodata" : {
+          "prefix" : "http://linkedgeodata.org/",
+          "icon" : "http://linkedgeodata.org/files/lgdlogo.png",
+          "caption" : "Find {0} on LinkedGeoData",
+          "href" : "{1}?ref=dbpedia",
+          "rank" : 10
+      },
+    },
+
 }
 ```
 
