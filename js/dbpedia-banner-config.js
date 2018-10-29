@@ -2,7 +2,7 @@ var BANNER_CONFIG =
 {
     "priority" : [
       { "key" : "aylien", "rank" : 200 },
-
+      { "key" : "oc" , "rank": 110 },
     ],
 
     "context" : {
@@ -16,6 +16,13 @@ var BANNER_CONFIG =
 
     "hosts" :
     {
+      "oc" : {
+          "prefix" : "https://newsapi.aylien.com",
+          "icon" : "http://global.dbpedia.org/images/oc.png",
+          "caption" : "More data available on OpenCorporates",
+          "href" : "https://opencorporates.com/companies/gb/00727817",
+          "rank" : 110
+      },
       "aylien" :  {
           "prefix" : "https://newsapi.aylien.com",
           "icon" : "https://news-api-demo.s3.amazonaws.com/images/logo-header.png",
